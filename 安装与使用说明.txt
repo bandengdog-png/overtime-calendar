@@ -1,0 +1,96 @@
+========================================
+ 加班日历 — 安装与使用说明
+========================================
+
+一、APK 安装（安卓手机）
+ 安装包：build\加班日历.apk
+ 方法1：数据线 + USB调试后：
+        & "E:\王忆天\组件\Android\platform-tools\adb.exe" install -r "build\加班日历.apk"
+ 方法2：把 APK 发到手机点击安装（允许未知来源）。
+ 交付目录：E:\王忆天\软件\加班日历
+
+二、使用流程
+ 1.【今日】页：中间蓝色圆按钮一键打卡。
+    第一次点 = 上班打卡，再点一次 = 下班打卡；
+    两次都打完按钮变为浅蓝「今日已完成」。
+    下方显示上班/下班时间与加班时长；点【修改 / 补录】可改时间、改加班时长、选类型、写事由。
+ 2.【日历】页：月视图（周一起始）。已打卡的日子有蓝点，有加班的日子格内显示时长数字，
+    今天有蓝色描边。点任意日期即可补录或修改那天的记录。
+ 3.【统计】页：本月 / 本年切换，显示加班总时长、加班天数、折算工时、单日最高，
+    近 6 个月柱状图、类型分布，以及当期明细列表（可编辑 / 删除）。
+ 4.【设置】页：
+    上班时间 / 下班时间  —— 加班时长 = 下班打卡时间 − 下班基准时间；
+                            下班早于基准且间隔不超过 12 小时算 0（如早退），超过 12 小时按跨零点算次日。
+    加班倍率（工作日/周末/节假日）—— 折算工时 = 加班时长 × 倍率。
+    打卡震动反馈开关。
+    卡片透明度滑动条 —— 向左更透（最小 30%）、向右更实（100%），拖动时实时生效并自动保存，
+                        用于让背景图更明显（对应 CSS 变量 --card-alpha，改 tokens.css 可调默认值）。
+    「仅显示文字」开关 —— 打开后卡片底色、边框、阴影、模糊全部取消，只保留文字，背景图最清楚。
+    背景图卡片：
+      选择本地图片 —— 从手机相册选图，自动压缩到长边 1600px 后存在本机（不联网），
+                      选完直接进入裁剪页。
+      自定义裁剪   —— 全屏裁剪：拖动画面调位置、底部滑块缩放（100%~300%），所见即手机上的效果；
+                      「重置」回到居中原始比例，「取消」放弃修改，「应用」保存。
+      恢复内置背景 —— 清掉自定义图，回到打包时内置的那张背景。
+    导出 JSON（可再导入）/ 导出 CSV（Excel 可打开）→ 落到手机 Download/王忆天/软件/加班日历
+    导入备份（把 JSON 内容粘进文本框，选「合并导入」或「覆盖导入」）。
+    清空全部数据。
+
+三、数据存放（重要）
+ 记录存在手机本机的 localStorage（键 ot.records.v1 / ot.settings.v1），
+ 应用不联网、不上传，卸载应用会一并清除数据。
+ 换手机或想长期保存：到【设置】页导出 JSON，之后在新手机上「导入备份」。
+
+四、界面改版指引（Figma / Canva）
+ 本工程刻意把「界面」与「后端」解耦，改设计不需要动业务代码。
+   改配色 / 圆角 / 字号 / 间距 → 只改 app\ui\tokens.css（设计令牌，全站唯一来源）
+   改页面结构 / 布局          → 只改 app\ui\views\*.js 里的 HTML（6 个文件：今日/日历/统计/设置/编辑弹层/顶栏与Tab）
+   改图标                    → 新建 app\ui\assets\ 放图标文件，并在模板里用相对路径引用（资源名用英文）
+ 逻辑与数据层（app\logic\、app\data\）完全不用动。
+ 模板里【必须保留】下列钩子，否则功能会失效：
+   data-ot="名字"        逻辑要拿到的容器/模板（如 data-ot="grid"、data-ot="row"）
+   data-bind="路径"      文字自动填充
+   data-bind-class="路径" 切换 class（值为 'is-on' 这类字符串）
+   data-bind-style="height=pct%"  内联样式（= 前是 CSS 属性，后面可带 % / px）
+   data-bind-if="路径"   控制显隐
+   data-read="字段名"    输入框取值/赋值（编辑弹层用）
+   data-set="设置项"     设置页里改完即保存的项
+   data-act="动作名"     点击行为，可配 data-arg（参数）与 data-confirm（二次确认）
+ 样式类名（.ot-*）只归视图层使用，随便改类名不影响功能。
+
+ 换背景图：
+   方式一（应用内）：【设置 → 背景图 → 选择本地图片】，选完进裁剪页拖动/缩放，点「应用」。
+   方式二（打包内置）：直接把新图覆盖到 app\ui\assets\bg.jpg（文件名在 tokens.css 的 --bg-photo 里指定）。
+   背景铺满方式为 cover（等比铺满 + 居中裁切），应用内裁剪会实时改写三个 CSS 变量：
+     --bg-x / --bg-y（位置百分比 0~100）与 --bg-zoom（缩放 1~3）；
+   嫌背景太抢眼可加大 tokens.css 里 --bg-scrim 的透明度数值（当前 0.45）。
+ 换应用图标：
+   把新图覆盖到 android-shell\res\drawable-nodpi\ic_launcher.png（需正方形，建议 432×432 以上），
+   再重新打包。源图不是正方形时先中心裁方，否则会被系统拉伸变形。
+ 视图文件清单（app\ui\views\）：chrome.js 顶栏/Tab/背景层外壳、home.js 今日、calendar.js 日历、
+   stats.js 统计、settings.js 设置、crop.js 背景裁剪弹层、editor.js 记录编辑弹层。
+
+五、本地预览（改界面时用，不必重新打包）
+ 1) 起本地静态服务（Node 已在 E:\王忆天\组件\node-v22.18.0-win-x64）：
+    & "E:\王忆天\组件\node-v22.18.0-win-x64\node.exe" tools\dev_server.js 8080
+ 2) 浏览器打开 http://localhost:8080/index.html ，改完 ui\ 下的文件按 F5 即可看到效果。
+ 说明：不能直接双击 app\index.html 用 file:// 打开做长时间测试（浏览器对 file:// 的
+       localStorage 与跨文件读取限制较多），预览请走上面的本地服务。
+
+六、重新打包
+ powershell -ExecutionPolicy Bypass -File tools\build_apk.ps1      只打包
+ powershell -ExecutionPolicy Bypass -File tools\sync_delivery.ps1  打包并同步到交付目录
+ 注意：两个 .ps1 必须是「UTF-8 带 BOM」保存，否则 PowerShell 5.1 会按 ANSI 解析、
+       中文注释乱码导致语法报错。若用编辑器另存过，请确认编码带 BOM。
+
+七、目录结构（分层）
+ app\config.js          运行配置（应用名、存储方式、震动时长）
+ app\ui\                视图层（设计师领地）：tokens.css / base.css / layout.css / views\*.js
+                        assets\bg.jpg 为界面背景图
+ app\logic\             逻辑层（纯算法，零 DOM）：datex.js 日期、punch.js 打卡、stats.js 统计
+ app\data\              数据层（后端）：contract.js 接口与校验、adapter.local.js 本地存储、
+                        adapter.http.js 预留服务端（离线优先，改 config.storage 即切换）
+ app\bind\              绑定层（唯一耦合点）：view.js 钩子绑定、actions.js 事件委托、
+                        bridge.js 原生能力、pages.js 页面组装、main.js 引导
+ android-shell\         安卓壳：AndroidManifest.xml / res / MainActivity.java
+ tools\                 打包与预览脚本

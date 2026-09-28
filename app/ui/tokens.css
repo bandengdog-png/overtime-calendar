@@ -1,0 +1,71 @@
+/* ============================================================
+   设计令牌 —— 蓝白配色的唯一来源
+   改配色/圆角/间距只改这个文件，全站生效，逻辑代码零改动
+   ============================================================ */
+:root {
+  /* ===== 背景图（换图只改这两行：把图片放到 app/ui/assets/ 下）===== */
+  --bg-photo: url('assets/bg.jpg');
+  /* 图片上的柔化蒙版，保证文字与卡片可读 */
+  --bg-scrim: linear-gradient(rgba(243, 247, 254, .45), rgba(243, 247, 254, .45));
+  /* 背景图位置与缩放：设置页的「背景图 → 自定义裁剪」会实时改写这三个值 */
+  --bg-x: 50%;
+  --bg-y: 50%;
+  --bg-zoom: 1;
+
+  /* 毛玻璃模糊强度 */
+  --blur: 10px;
+
+  /* 卡片透明度：由「设置 → 卡片透明度」滑动条实时写入（越小越透，背景越明显） */
+  --card-alpha: .85;
+
+  /* 主色与底色 */
+  --c-primary: #0D6EFD;
+  --c-primary-2: #4FACFE;
+  --c-grad: linear-gradient(135deg, #4FACFE, #0D6EFD);
+  --c-bg: #F3F7FE;
+  /* 卡片：半透明白（透明度由 --card-alpha 控制） */
+  --c-card: rgba(255, 255, 255, var(--card-alpha));
+  --c-card-solid: #FFFFFF;
+  --c-soft: #EAF2FF;
+
+  /* 文字 */
+  --c-text: #1B2B48;
+  --c-sub: #6B7A99;
+  --c-on-primary: #FFFFFF;
+
+  /* 线条 */
+  --c-line: #E3EAF6;
+  --c-line2: #EFF3FA;
+
+  /* 状态色 */
+  --c-danger: #E53935;
+  --c-ok: #2E9E5B;
+  --c-warn: #F59E0B;
+
+  /* 圆角 */
+  --r-card: 16px;
+  --r-btn: 13px;
+  --r-cell: 12px;
+  --r-chip: 99px;
+
+  /* 间距 */
+  --sp-page: 14px;
+  --sp-card: 14px;
+  --sp-gap: 12px;
+
+  /* 字号 */
+  --fs-title: 16px;
+  --fs-body: 14px;
+  --fs-sub: 12px;
+  --fs-mini: 10.5px;
+
+  /* 阴影 */
+  --sh-card: 0 4px 16px rgba(15, 80, 200, .06);
+  --sh-btn: 0 4px 14px rgba(13, 110, 253, .28);
+  --sh-punch: 0 8px 24px rgba(13, 110, 253, .32);
+  --sh-modal: 0 12px 40px rgba(10, 40, 100, .22);
+
+  /* 结构尺寸 */
+  --h-top: 54px;
+  --h-tab: 60px;
+}

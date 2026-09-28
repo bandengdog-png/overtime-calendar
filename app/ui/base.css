@@ -1,0 +1,162 @@
+/* ============================================================
+   基础重置 + 原子类（按钮 / 卡片 / 输入 / 徽标 / 芯片 / 列表）
+   ============================================================ */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: var(--fs-body);
+  overscroll-behavior: none;
+}
+button, input, select, textarea { font-family: inherit; font-size: inherit; color: inherit; }
+
+/* ---------- 按钮 ---------- */
+.ot-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 0; border-radius: var(--r-btn); padding: 10px 16px;
+  font-size: var(--fs-body); font-weight: 700; cursor: pointer;
+  transition: transform .08s, opacity .2s; user-select: none;
+}
+.ot-btn:active { transform: scale(.96); }
+.ot-btn-primary { background: var(--c-grad); color: var(--c-on-primary); box-shadow: var(--sh-btn); }
+.ot-btn-soft { background: var(--c-soft); color: var(--c-primary); }
+.ot-btn-ghost { background: var(--c-card); color: var(--c-text); border: 1px solid var(--c-line); }
+.ot-btn-danger { background: var(--c-danger); color: #fff; }
+.ot-btn-block { width: 100%; }
+.ot-btn-sm { padding: 6px 10px; font-size: var(--fs-sub); border-radius: 10px; }
+.ot-btn:disabled { opacity: .5; pointer-events: none; }
+
+/* ---------- 卡片 ---------- */
+.ot-card {
+  background: var(--c-card); border-radius: var(--r-card);
+  padding: var(--sp-card); box-shadow: var(--sh-card);
+  border: 1px solid rgba(255, 255, 255, .6);
+  -webkit-backdrop-filter: blur(var(--blur));
+  backdrop-filter: blur(var(--blur));
+}
+.ot-card-title { font-size: 15px; font-weight: 800; margin-bottom: 8px; }
+
+/* ---------- 文本 ---------- */
+.ot-sub { color: var(--c-sub); font-size: var(--fs-sub); }
+.ot-mini { color: var(--c-sub); font-size: var(--fs-mini); }
+.ot-strong { font-weight: 800; }
+.ot-num { font-variant-numeric: tabular-nums; }
+.ot-empty { padding: 28px 12px; text-align: center; color: var(--c-sub); font-size: var(--fs-sub); }
+
+/* ---------- 行/列 工具类 ---------- */
+.ot-row { display: flex; gap: 8px; align-items: center; }
+.ot-col { display: flex; flex-direction: column; gap: 8px; }
+.ot-between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.ot-grow { flex: 1 1 0; min-width: 0; }
+
+/* ---------- 输入 ---------- */
+.ot-field { display: flex; flex-direction: column; gap: 5px; flex: 1 1 0; min-width: 0; }
+.ot-field-label { font-size: var(--fs-sub); color: var(--c-sub); font-weight: 600; }
+.ot-input {
+  width: 100%; border: 1.5px solid var(--c-line); border-radius: 11px;
+  padding: 9px 12px; background: rgba(255, 255, 255, .92); outline: none;
+}
+.ot-input:focus { border-color: var(--c-primary); box-shadow: 0 0 0 3px rgba(13, 110, 253, .12); }
+textarea.ot-input { min-height: 76px; resize: vertical; }
+
+/* ---------- 芯片 ---------- */
+.ot-chip {
+  border: 1px solid var(--c-line); background: rgba(255, 255, 255, .92); border-radius: var(--r-chip);
+  padding: 6px 13px; font-size: var(--fs-sub); cursor: pointer;
+}
+.ot-chip.is-on { background: var(--c-soft); border-color: var(--c-primary); color: var(--c-primary); font-weight: 700; }
+
+/* ---------- 开关 ---------- */
+.ot-switch { width: 46px; height: 27px; border-radius: var(--r-chip); background: var(--c-line); border: 0; position: relative; padding: 0; cursor: pointer; flex: none; }
+.ot-switch i { position: absolute; top: 3px; left: 3px; width: 21px; height: 21px; border-radius: 50%; background: #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); transition: left .2s; }
+.ot-switch.is-on { background: var(--c-primary); }
+.ot-switch.is-on i { left: 22px; }
+
+/* ---------- 列表 ---------- */
+.ot-list-item { padding: 10px 2px; border-bottom: 1px solid var(--c-line2); }
+.ot-list-item:last-child { border-bottom: 0; }
+.ot-li-sub { color: var(--c-sub); font-size: var(--fs-mini); margin-top: 2px; }
+
+/* ---------- 滑动条 ---------- */
+.ot-range {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 30px; margin: 6px 0 0;
+  background: transparent; outline: none; cursor: pointer;
+}
+.ot-range::-webkit-slider-runnable-track {
+  height: 6px; border-radius: var(--r-chip);
+  background: linear-gradient(90deg, var(--c-soft), var(--c-primary), var(--c-soft));
+}
+.ot-range::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 22px; height: 22px; margin-top: -8px; border-radius: 50%;
+  background: var(--c-primary); border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(13, 110, 253, .45);
+}
+.ot-range:active::-webkit-slider-thumb { transform: scale(1.08); }
+.ot-range::-moz-range-track { height: 6px; border-radius: var(--r-chip); background: var(--c-line); }
+.ot-range::-moz-range-thumb {
+  width: 18px; height: 18px; border-radius: 50%; background: var(--c-primary);
+  border: 3px solid #fff; box-shadow: 0 2px 8px rgba(13, 110, 253, .45);
+}
+
+/* ---------- 幽灵模式：只留文字（取消卡片底色与模糊，最大程度露出背景） ---------- */
+.ot-app.is-ghost .ot-card,
+.ot-app.is-ghost .ot-hero,
+.ot-app.is-ghost .ot-stat,
+.ot-app.is-ghost .ot-cell {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.ot-app.is-ghost .ot-input,
+.ot-app.is-ghost .ot-chip { background: transparent; }
+.ot-app.is-ghost .ot-pagebody,
+.ot-app.is-ghost .ot-tabbar {
+  text-shadow: 0 1px 3px rgba(255, 255, 255, .95), 0 0 2px rgba(255, 255, 255, .95);
+}
+.ot-app.is-ghost .ot-cell.is-today,
+.ot-app.is-ghost .ot-cell.is-picked { border-color: var(--c-primary); }
+.ot-app.is-ghost .ot-tabbar { background: rgba(255, 255, 255, .72); }
+
+/* ---------- 背景裁剪（全屏弹层） ---------- */
+.ot-modal.is-full {
+  height: 100%; max-height: 100%; border-radius: 0; padding: 0;
+  display: flex; flex-direction: column; background: #0B1A33;
+}
+.ot-cropwrap { position: relative; flex: 1 1 auto; overflow: hidden; }
+.ot-crop-frame { position: absolute; inset: 0; overflow: hidden; touch-action: none; cursor: grab; }
+.ot-crop-frame:active { cursor: grabbing; }
+.ot-crop-img {
+  position: absolute; inset: 0;
+  background-image: var(--bg-photo);
+  background-size: cover;
+  background-position: var(--bg-x) var(--bg-y);
+  background-repeat: no-repeat;
+  transform: scale(var(--bg-zoom));
+  transform-origin: var(--bg-x) var(--bg-y);
+}
+.ot-crop-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .3) 1px, transparent 1px);
+  background-size: 33.33% 33.33%;
+}
+.ot-crop-tip {
+  position: absolute; left: 0; right: 0; top: calc(14px + env(safe-area-inset-top, 0px));
+  text-align: center; color: #fff; font-size: var(--fs-sub);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .7); pointer-events: none;
+}
+.ot-crop-bar {
+  flex: none; background: rgba(255, 255, 255, .96);
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------- 比例条 ---------- */
+.ot-bar-bg { height: 8px; border-radius: var(--r-chip); background: var(--c-line2); overflow: hidden; flex: 1 1 auto; }
+.ot-bar-fill { height: 100%; border-radius: var(--r-chip); background: var(--c-grad); }
